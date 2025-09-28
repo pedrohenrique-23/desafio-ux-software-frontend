@@ -1,34 +1,52 @@
 // src/components/ProductCard.tsx
 
-// Define a "forma" de um objeto de produto, para o TypeScript entender
 export interface Product {
   id: string;
   name: string;
   description: string;
   price: number;
-  image: string;
+  imageUrl: string;
 }
 
 interface ProductCardProps {
   product: Product;
+  onDelete: (productId: string) => void;
+  onEdit: (product: Product) => void; // 1. Prop para a função de editar
 }
 
-export const ProductCard = ({ product }: ProductCardProps) => {
+export const ProductCard = ({ product, onDelete, onEdit }: ProductCardProps) => {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
-      <img 
-        src={product.image || 'https://via.placeholder.com/300'} // Imagem placeholder caso não haja
-        alt={product.name} 
-        className="w-full h-48 object-cover" 
-      />
-      <div className="p-4">
-        <h3 className="text-lg font-bold text-gray-800">{product.name}</h3>
-        <p className="text-gray-600 mt-2">{product.description}</p>
-        <div className="flex items-center justify-between mt-4">
-          <span className="text-xl font-bold text-gray-900">
-            R$ {product.price.toFixed(2).replace('.', ',')}
-          </span>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col justify-between">
+      <div>
+        <img 
+          src={product.imageUrl || 'https://via.placeholder.com/300'} 
+          alt={product.name} 
+          className="w-full h-48 object-cover" 
+        />
+        <div className="p-4">
+          <h3 className="text-lg font-bold text-gray-800">{product.name}</h3>
+          <p className="text-gray-600 mt-2 h-20 overflow-hidden">{product.description}</p>
+        </div>
+      </div>
+      <div className="p-4 border-t">
+        <span className="text-xl font-bold text-gray-900">
+          R$ {Number(product.price).toFixed(2).replace('.', ',')}
+        </span>
+        <div className="flex items-center justify-end gap-2 mt-4">
+          {/* 2. Botão de Editar adicionado */}
+          <button
+            onClick={() => onEdit(product)}
+            className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-3 rounded text-sm"
+          >
+            Editar
+          </button>
+          <button 
+            onClick={() => onDelete(product.id)}
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-3 rounded text-sm"
+          >
+            Excluir
+          </button>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded text-sm">
             Adicionar
           </button>
         </div>
