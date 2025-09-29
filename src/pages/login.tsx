@@ -5,14 +5,14 @@ import { api } from '@/services/api';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import axios from 'axios';
+import axios from 'axios'; // Importa o axios para verificação de tipo
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const router = useRouter(); // 2. Inicializa o router
+  const router = useRouter();
 
-const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const data = { email, password };
     try {
@@ -20,13 +20,9 @@ const handleSubmit = async (event: FormEvent) => {
       const { accessToken } = response.data;
       localStorage.setItem('accessToken', accessToken);
       toast.success('Login realizado com sucesso!');
-      
       router.push('/');
-
-    } catch (error) { // <-- MUDANÇA AQUI (removemos o ': any')
+    } catch (error) {
       console.error('Erro no login:', error);
-
-      // Verificamos se o erro é do Axios para acessar 'response' com segurança
       if (axios.isAxiosError(error) && error.response) {
         toast.error(error.response.data.message);
       } else {
@@ -38,9 +34,7 @@ const handleSubmit = async (event: FormEvent) => {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">
-          Entrar
-        </h1>
+        <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">Entrar</h1>
         <form onSubmit={handleSubmit}>
           <Input id="email" label="E-mail" type="email" placeholder="seu@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
           <Input id="password" label="Senha" type="password" placeholder="********" value={password} onChange={(e) => setPassword(e.target.value)} required />
