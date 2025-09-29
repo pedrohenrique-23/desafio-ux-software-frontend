@@ -8,7 +8,7 @@ Aplicação web de um marketplace online desenvolvida como parte do processo sel
 
 ## 🚀 Demonstração
 
-**🔗 Link para o Deploy:** *[Inserir o link da Vercel aqui quando fizermos o deploy]*
+**🔗 Link para o Deploy:** https://desafio-ux-software-frontend-9htr19iws.vercel.app/login
 
 ---
 
@@ -20,16 +20,16 @@ Aplicação web de um marketplace online desenvolvida como parte do processo sel
     * Fluxo de navegação protegido: a página de produtos só é acessível para usuários logados.
 * **Gerenciamento de Produtos (CRUD):**
     * Listagem de produtos da API com paginação.
-    * Criação de novos produtos por administradores, incluindo upload de imagem. [cite: 33]
-    * Edição dos dados de produtos existentes. [cite: 36]
-    * Deleção de produtos com diálogo de confirmação. [cite: 37]
+    * Criação de novos produtos por administradores, incluindo upload de imagem. 
+    * Edição dos dados de produtos existentes.
+    * Deleção de produtos com diálogo de confirmação.
 * **Carrinho de Compras:**
-    * Adicionar produtos ao carrinho. [cite: 39]
-    * Visualização do carrinho em um painel lateral com lista de itens e valor total. [cite: 40]
+    * Adicionar produtos ao carrinho.
+    * Visualização do carrinho em um painel lateral com lista de itens e valor total.
     * Aumentar, diminuir e remover itens do carrinho.
 * **Experiência do Usuário (UX):**
     * Layout totalmente responsivo, adaptável a telas de celulares, tablets e desktops.
-    * Notificações "toast" para feedback de sucesso e erro. [cite: 20]
+    * Notificações "toast" para feedback de sucesso e erro.
     * Ícones para visualização de senha e interações no carrinho.
     * Indicadores de "loading" durante o carregamento de dados.
 
@@ -37,10 +37,10 @@ Aplicação web de um marketplace online desenvolvida como parte do processo sel
 
 ## 🛠️ Tecnologias Utilizadas
 
-* **Next.js** [cite: 12]
+* **Next.js** 
 * **React**
-* **TypeScript** [cite: 12]
-* **Tailwind CSS** para estilização. [cite: 13]
+* **TypeScript** 
+* **Tailwind CSS** para estilização.
 * **Axios** para comunicação com a API.
 * **React Toastify** para notificações.
 * **@react-input/mask** para máscaras de input.
@@ -75,7 +75,7 @@ Siga os passos abaixo para configurar e executar o projeto no seu ambiente de de
     ```
 
 4.  **Configure as Variáveis de Ambiente:**
-    * Este projeto não requer variáveis de ambiente (`.env`) no lado do cliente, pois a URL da API (`http://localhost:3001`) está configurada diretamente no serviço do Axios para fins de desenvolvimento. [cite: 47]
+    * Este projeto não requer variáveis de ambiente (`.env`) no lado do cliente, pois a URL da API (`http://localhost:3001`) está configurada diretamente no serviço do Axios para fins de desenvolvimento. 
 
 5.  **Execute a aplicação:**
     ```bash
