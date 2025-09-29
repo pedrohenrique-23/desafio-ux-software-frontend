@@ -1,4 +1,5 @@
 // src/components/ProductCard.tsx
+import { useCart } from "@/contexts/CartContext"; // 1. Importa o hook useCart
 
 export interface Product {
   id: string;
@@ -11,10 +12,13 @@ export interface Product {
 interface ProductCardProps {
   product: Product;
   onDelete: (productId: string) => void;
-  onEdit: (product: Product) => void; // 1. Prop para a função de editar
+  onEdit: (product: Product) => void;
 }
 
 export const ProductCard = ({ product, onDelete, onEdit }: ProductCardProps) => {
+  // 2. Pega a função de adicionar ao carrinho do contexto
+  const { addProductToCart } = useCart();
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col justify-between">
       <div>
@@ -33,7 +37,6 @@ export const ProductCard = ({ product, onDelete, onEdit }: ProductCardProps) => 
           R$ {Number(product.price).toFixed(2).replace('.', ',')}
         </span>
         <div className="flex items-center justify-end gap-2 mt-4">
-          {/* 2. Botão de Editar adicionado */}
           <button
             onClick={() => onEdit(product)}
             className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-3 rounded text-sm"
@@ -46,7 +49,11 @@ export const ProductCard = ({ product, onDelete, onEdit }: ProductCardProps) => 
           >
             Excluir
           </button>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded text-sm">
+          {/* 3. Conecta a função ao onClick do botão */}
+          <button 
+            onClick={() => addProductToCart(product.id)}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded text-sm"
+          >
             Adicionar
           </button>
         </div>

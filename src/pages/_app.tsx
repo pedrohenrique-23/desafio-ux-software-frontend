@@ -1,14 +1,15 @@
 // src/pages/_app.tsx
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
-import { ToastContainer } from 'react-toastify'; // 1. Importa o ToastContainer
-import 'react-toastify/dist/ReactToastify.css'; // 2. Importa o CSS do Toastify
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { CartProvider } from '@/contexts/CartContext'; // 1. Importa o CartProvider
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    // 2. Envolve a aplicação com o CartProvider
+    <CartProvider>
       <Component {...pageProps} />
-      {/* 3. Adiciona o contêiner aqui. Ele ficará invisível até um toast ser chamado. */}
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -21,6 +22,6 @@ export default function App({ Component, pageProps }: AppProps) {
         pauseOnHover
         theme="light"
       />
-    </>
+    </CartProvider>
   );
 }
