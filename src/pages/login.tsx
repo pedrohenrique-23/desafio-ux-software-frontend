@@ -4,14 +4,15 @@ import { FormEvent, useState } from 'react';
 import { api } from '@/services/api';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
-import { useRouter } from 'next/router'; // 1. Importa o useRouter
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter(); // 2. Inicializa o router
 
-  const handleSubmit = async (event: FormEvent) => {
+const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const data = { email, password };
     try {
@@ -20,12 +21,13 @@ const LoginPage = () => {
       localStorage.setItem('accessToken', accessToken);
       toast.success('Login realizado com sucesso!');
       
-      // 3. Redireciona o usuário para a home page
       router.push('/');
 
-    } catch (error: any) {
+    } catch (error) { // <-- MUDANÇA AQUI (removemos o ': any')
       console.error('Erro no login:', error);
-      if (error.response && error.response.data?.message) {
+
+      // Verificamos se o erro é do Axios para acessar 'response' com segurança
+      if (axios.isAxiosError(error) && error.response) {
         toast.error(error.response.data.message);
       } else {
         toast.error('Ocorreu um erro ao tentar fazer login. Tente novamente.');

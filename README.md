@@ -1,40 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Desafio Front-End UX Software - Marketplace
 
-## Getting Started
+![Licença](https://img.shields.io/badge/licença-MIT-blue.svg)
 
-First, run the development server:
+Aplicação web de um marketplace online desenvolvida como parte do processo seletivo para a vaga de Desenvolvedor Front-End na UX Software.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Demonstração
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+**🔗 Link para o Deploy:** *[Inserir o link da Vercel aqui quando fizermos o deploy]*
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+---
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+## 📋 Funcionalidades Implementadas
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+* **Autenticação de Usuário:**
+    * Cadastro de novos usuários com validação de senha e máscara de campos (CPF e Telefone).
+    * Login com tratamento de credenciais inválidas.
+    * Fluxo de navegação protegido: a página de produtos só é acessível para usuários logados.
+* **Gerenciamento de Produtos (CRUD):**
+    * Listagem de produtos da API com paginação.
+    * Criação de novos produtos por administradores, incluindo upload de imagem. [cite: 33]
+    * Edição dos dados de produtos existentes. [cite: 36]
+    * Deleção de produtos com diálogo de confirmação. [cite: 37]
+* **Carrinho de Compras:**
+    * Adicionar produtos ao carrinho. [cite: 39]
+    * Visualização do carrinho em um painel lateral com lista de itens e valor total. [cite: 40]
+    * Aumentar, diminuir e remover itens do carrinho.
+* **Experiência do Usuário (UX):**
+    * Layout totalmente responsivo, adaptável a telas de celulares, tablets e desktops.
+    * Notificações "toast" para feedback de sucesso e erro. [cite: 20]
+    * Ícones para visualização de senha e interações no carrinho.
+    * Indicadores de "loading" durante o carregamento de dados.
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🛠️ Tecnologias Utilizadas
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+* **Next.js** [cite: 12]
+* **React**
+* **TypeScript** [cite: 12]
+* **Tailwind CSS** para estilização. [cite: 13]
+* **Axios** para comunicação com a API.
+* **React Toastify** para notificações.
+* **@react-input/mask** para máscaras de input.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## ⚙️ Como Executar o Projeto Localmente
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Siga os passos abaixo para configurar e executar o projeto no seu ambiente de desenvolvimento.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+### Pré-requisitos
+
+* [Node.js](https://nodejs.org/en/) (versão 18 ou superior)
+* [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/)
+* O back-end [marketplace-api](https://github.com/ux-software/marketplace-api) deve estar configurado e rodando localmente na porta `3001`.
+
+### Passo a Passo
+
+1.  **Clone o repositório:**
+    ```bash
+    git clone [https://github.com/seu-usuario/desafio-ux-software-frontend.git](https://github.com/seu-usuario/desafio-ux-software-frontend.git)
+    ```
+
+2.  **Acesse a pasta do projeto:**
+    ```bash
+    cd desafio-ux-software-frontend
+    ```
+
+3.  **Instale as dependências:**
+    ```bash
+    npm install
+    ```
+
+4.  **Configure as Variáveis de Ambiente:**
+    * Este projeto não requer variáveis de ambiente (`.env`) no lado do cliente, pois a URL da API (`http://localhost:3001`) está configurada diretamente no serviço do Axios para fins de desenvolvimento. [cite: 47]
+
+5.  **Execute a aplicação:**
+    ```bash
+    npm run dev
+    ```
+
+6.  Abra [http://localhost:3000](http://localhost:3000) no seu navegador para ver o resultado.
+
+---
+
+## 📬 Contato
+
+* **Nome:** Pedro Henrique do Nascimento Silva
+* **LinkedIn:** https://www.linkedin.com/in/pedro-silva-dev-2002-js/
+* **GitHub:** https://github.com/pedrohenrique-23

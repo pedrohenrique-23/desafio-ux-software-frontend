@@ -6,6 +6,7 @@ import { api } from '@/services/api';
 import { toast } from 'react-toastify';
 import { EyeIcon } from '@/components/icons/EyeIcon'; // Importa os ícones
 import { EyeOffIcon } from '@/components/icons/EyeOffIcon';
+import axios from 'axios';
 
 const CadastroPage = () => {
   // ... (os outros useStates continuam aqui)
@@ -23,31 +24,32 @@ const CadastroPage = () => {
   const cpfRef = useMask({ mask: '___.___.___-__', replacement: { _: /\d/ } });
   const phoneRef = useMask({ mask: '(__) _____-____', replacement: { _: /\d/ } });
 
-  const handleSubmit = async (event: FormEvent) => {
-    // ... (lógica do handleSubmit continua a mesma)
+   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    if (password.length < 6) {
-      toast.error('A senha deve ter no mínimo 6 caracteres.');
-      return; // Para a execução
-    }
 
     if (password !== confirmPassword) {
       toast.error('As senhas não conferem!');
       return;
     }
+
     const data = { name: fullName, email, cpf, phone, password };
+
     try {
       await api.post('/auth/register', data);
       toast.success('Usuário cadastrado com sucesso!');
+      
       setFullName('');
       setEmail('');
       setCpf('');
       setPhone('');
       setPassword('');
       setConfirmPassword('');
-    } catch (error: any) {
+      
+    } catch (error) { // <-- MUDANÇA AQUI (removemos o ': any')
       console.error('Erro no cadastro:', error);
-      if (error.response && error.response.data?.message) {
+
+      // Verificamos se o erro é do Axios para acessar 'response' com segurança
+      if (axios.isAxiosError(error) && error.response) {
         toast.error(error.response.data.message);
       } else {
         toast.error('Ocorreu um erro ao tentar cadastrar. Tente novamente.');
