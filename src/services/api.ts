@@ -1,21 +1,20 @@
 // src/services/api.ts
 import axios from 'axios';
 
+// Vamos usar a URL de produção diretamente para garantir o deploy
+const API_URL = 'https://desafio-ux-software-api.onrender.com';
+
 export const api = axios.create({
-  baseURL: 'http://localhost:3001',
+  baseURL: API_URL,
 });
 
-// Interceptor que adiciona o token em cada requisição
+// O interceptor continua o mesmo, não precisa mudar
 api.interceptors.request.use(
   (config) => {
-    // Pega o token do localStorage
     const token = localStorage.getItem('accessToken');
-
-    // Se o token existir, anexa ele no cabeçalho de autorização
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
-
     return config;
   },
   (error) => {
