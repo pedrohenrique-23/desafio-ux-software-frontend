@@ -1,22 +1,19 @@
-// src/contexts/CartContext.tsx
 import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 import { api } from '@/services/api';
 import { toast } from 'react-toastify';
 import { Product } from '@/components/ProductCard';
 
-// Interface para um item do carrinho, como a API retorna
 interface CartItem {
   product: Product;
   quantity: number;
 }
 
-// Interface para os dados que o nosso contexto vai fornecer
 interface CartContextData {
   items: CartItem[];
   totalItems: number;
   addProductToCart: (productId: string) => void;
   removeProductFromCart: (productId: string) => void;
-  decreaseQuantity: (productId: string) => void; // Adicionamos a nova função aqui
+  decreaseQuantity: (productId: string) => void;
   fetchCart: () => void;
 }
 
@@ -50,7 +47,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         quantity: 1,
       });
       await fetchCart();
-      // toast.success("Produto adicionado ao carrinho!"); // <--- REMOVA OU COMENTE ESTA LINHA
+      // toast.success("Produto adicionado ao carrinho!");
     } catch (error) {
       toast.error("Erro ao adicionar produto ao carrinho.");
       console.error(error);
@@ -70,7 +67,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  // --- FUNÇÃO NOVA ---
   const decreaseQuantity = async (productId: string) => {
     try {
       await api.patch('/cart/decrease-quantity', {
@@ -78,14 +74,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         quantity: 1,
       });
       await fetchCart();
-      // toast.info("Quantidade do produto atualizada."); // <--- REMOVA OU COMENTE ESTA LINHA
+      // toast.info("Quantidade do produto atualizada.");
     } catch (error) {
       toast.error("Erro ao atualizar a quantidade.");
       console.error(error);
     }
   };
-  // --------------------
-
+  
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (

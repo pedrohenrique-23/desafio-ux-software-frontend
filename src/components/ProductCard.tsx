@@ -1,5 +1,4 @@
-// src/components/ProductCard.tsx
-import { useCart } from "@/contexts/CartContext"; // 1. Importa o hook useCart
+import { useCart } from "@/contexts/CartContext";
 
 export interface Product {
   id: string;
@@ -16,7 +15,6 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product, onDelete, onEdit }: ProductCardProps) => {
-  // 2. Pega a função de adicionar ao carrinho do contexto
   const { addProductToCart } = useCart();
 
   return (
@@ -49,7 +47,6 @@ export const ProductCard = ({ product, onDelete, onEdit }: ProductCardProps) => 
           >
             Excluir
           </button>
-          {/* 3. Conecta a função ao onClick do botão */}
           <button 
             onClick={() => addProductToCart(product.id)}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded text-sm"

@@ -1,12 +1,13 @@
-// src/pages/cadastro.tsx
 import { Input } from '@/components/Input';
 import { useMask } from '@react-input/mask';
 import { FormEvent, useState } from 'react';
 import { api } from '@/services/api';
 import { toast } from 'react-toastify';
-import axios from 'axios'; // Importa o axios para verificação de tipo
+import axios from 'axios';
 import { EyeIcon } from '@/components/icons/EyeIcon';
 import { EyeOffIcon } from '@/components/icons/EyeOffIcon';
+import Link from 'next/link'; 
+import { useRouter } from 'next/router';
 
 const CadastroPage = () => {
   const [fullName, setFullName] = useState('');
@@ -17,6 +18,8 @@ const CadastroPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const router = useRouter();
 
   const cpfRef = useMask({ mask: '___.___.___-__', replacement: { _: /\d/ } });
   const phoneRef = useMask({ mask: '(__) _____-____', replacement: { _: /\d/ } });
@@ -38,13 +41,12 @@ const CadastroPage = () => {
 
     try {
       await api.post('/auth/register', data);
-      toast.success('Usuário cadastrado com sucesso!');
-      setFullName('');
-      setEmail('');
-      setCpf('');
-      setPhone('');
-      setPassword('');
-      setConfirmPassword('');
+      toast.success('Usuário cadastrado com sucesso! Redirecionando para o login...');
+
+      setTimeout(() => {
+        router.push('/login');
+      }, 2000);
+
     } catch (error) {
       console.error('Erro no cadastro:', error);
       if (axios.isAxiosError(error) && error.response) {
@@ -58,7 +60,9 @@ const CadastroPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">Criar Conta</h1>
+        <h1 className="text-2xl font-bold mb-6 text-center text-gray-700">
+          Criar Conta
+        </h1>
         <form onSubmit={handleSubmit}>
           <Input id="fullName" label="Nome Completo" type="text" placeholder="Seu nome completo" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
           <Input id="email" label="E-mail" type="email" placeholder="seu@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
@@ -66,10 +70,20 @@ const CadastroPage = () => {
           <Input ref={phoneRef} id="phone" label="Telefone" type="text" placeholder="(00) 00000-0000" value={phone} onChange={(e) => setPhone(e.target.value)} required />
           <Input id="password" label="Senha" type={showPassword ? 'text' : 'password'} placeholder="********" value={password} onChange={(e) => setPassword(e.target.value)} required icon={showPassword ? <EyeOffIcon /> : <EyeIcon />} onIconClick={() => setShowPassword(!showPassword)} />
           <Input id="confirmPassword" label="Confirmar Senha" type={showConfirmPassword ? 'text' : 'password'} placeholder="********" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required icon={showConfirmPassword ? <EyeOffIcon /> : <EyeIcon />} onIconClick={() => setShowConfirmPassword(!showConfirmPassword)} />
-          <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          <button
+            type="submit"
+            className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
             Cadastrar
           </button>
         </form>
+
+        <p className="mt-6 text-center text-sm text-gray-600">
+          Já tem uma conta?{' '}
+          <Link href="/login" className="font-medium text-blue-600 hover:text-blue-500">
+            Faça o login
+          </Link>
+        </p>
       </div>
     </div>
   );

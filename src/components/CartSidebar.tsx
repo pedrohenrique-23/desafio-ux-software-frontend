@@ -1,4 +1,3 @@
-// src/components/CartSidebar.tsx
 import { useCart } from "@/contexts/CartContext";
 import { TrashIcon } from "./icons/TrashIcon";
 
@@ -40,7 +39,6 @@ export const CartSidebar = ({ isOpen, onClose }: CartSidebarProps) => {
           <div className="flex-grow p-4 overflow-y-auto">
             {totalItems > 0 ? (
               items.map((item, index) => (
-                // --- AQUI COMEÇAM AS MUDANÇAS DE ESTILO ---
                 <div key={item.product.id} className={`flex items-start gap-4 py-4 ${index < items.length - 1 ? 'border-b' : ''}`}>
                   <img src={item.product.imageUrl} alt={item.product.name} className="w-20 h-20 object-cover rounded-md"/>
                   
@@ -69,7 +67,6 @@ export const CartSidebar = ({ isOpen, onClose }: CartSidebarProps) => {
                     </button>
                   </div>
                 </div>
-                // --- AQUI TERMINAM AS MUDANÇAS DE ESTILO ---
               ))
             ) : (
               <p className="text-center text-gray-500 mt-10">Seu carrinho está vazio.</p>

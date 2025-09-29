@@ -1,13 +1,11 @@
-// src/pages/_app.tsx
 import '@/styles/globals.css';
 import type { AppProps } from 'next/app';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { CartProvider } from '@/contexts/CartContext'; // 1. Importa o CartProvider
+import { CartProvider } from '@/contexts/CartContext';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    // 2. Envolve a aplicação com o CartProvider
     <CartProvider>
       <Component {...pageProps} />
       <ToastContainer

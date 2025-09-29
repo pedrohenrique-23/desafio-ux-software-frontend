@@ -1,4 +1,3 @@
-// src/pages/index.tsx
 import { useEffect, useState, FormEvent, ChangeEvent } from 'react';
 import { useRouter } from 'next/router';
 import { api } from '@/services/api';
@@ -8,6 +7,7 @@ import { Modal } from '@/components/Modal';
 import { Input } from '@/components/Input';
 import { CartIcon } from '@/components/CartIcon';
 import { CartSidebar } from '@/components/CartSidebar';
+import { useAuth } from '@/hooks/useAuth';
 
 const HomePage = () => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -26,6 +26,7 @@ const HomePage = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   
   const router = useRouter();
+  const { user } = useAuth();
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -56,67 +57,13 @@ const HomePage = () => {
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => { if (event.target.files && event.target.files[0]) { setCreateImageFile(event.target.files[0]); } };
   
-  const handleCreateProduct = async (event: FormEvent) => { 
-    event.preventDefault(); 
-    if (!createImageFile) { 
-      toast.error("Por favor, selecione uma imagem."); 
-      return; 
-    } 
-    const formData = new FormData(); 
-    formData.append('name', createName); 
-    formData.append('description', createDescription); 
-    formData.append('price', createPrice); 
-    formData.append('image', createImageFile); 
-    try { 
-      await api.post('/products', formData, { headers: { 'Content-Type': 'multipart/form-data' } }); 
-      toast.success('Produto criado com sucesso!'); 
-      setIsCreateModalOpen(false); 
-      fetchProducts(); 
-    } catch (error) { 
-      toast.error('Erro ao criar o produto.'); 
-    } 
-  };
+  const handleCreateProduct = async (event: FormEvent) => { event.preventDefault(); if (!createImageFile) { toast.error("Por favor, selecione uma imagem."); return; } const formData = new FormData(); formData.append('name', createName); formData.append('description', createDescription); formData.append('price', createPrice); formData.append('image', createImageFile); try { await api.post('/products', formData, { headers: { 'Content-Type': 'multipart/form-data' } }); toast.success('Produto criado com sucesso!'); setIsCreateModalOpen(false); fetchProducts(); } catch (error) { toast.error('Erro ao criar o produto.'); } };
 
-  const handleDeleteProduct = async (productId: string) => { 
-    const confirmed = window.confirm("Você tem certeza que deseja deletar este produto?"); 
-    if (confirmed) { 
-      try { 
-        await api.delete(`/products/${productId}`); 
-        toast.success("Produto deletado com sucesso!"); 
-        setProducts(products.filter(p => p.id !== productId)); 
-      } catch (error) { 
-        toast.error("Erro ao deletar o produto."); 
-      } 
-    } 
-  };
+  const handleDeleteProduct = async (productId: string) => { const confirmed = window.confirm("Você tem certeza que deseja deletar este produto?"); if (confirmed) { try { await api.delete(`/products/${productId}`); toast.success("Produto deletado com sucesso!"); setProducts(products.filter(p => p.id !== productId)); } catch (error) { toast.error("Erro ao deletar o produto."); } } };
 
-  const handleOpenEditModal = (product: Product) => { 
-    setEditingProduct(product); 
-    setEditName(product.name); 
-    setEditDescription(product.description); 
-    setEditPrice(String(product.price)); 
-    setEditImageUrl(product.imageUrl); 
-    setIsEditModalOpen(true); 
-  };
+  const handleOpenEditModal = (product: Product) => { setEditingProduct(product); setEditName(product.name); setEditDescription(product.description); setEditPrice(String(product.price)); setEditImageUrl(product.imageUrl); setIsEditModalOpen(true); };
   
-  const handleUpdateProduct = async (event: FormEvent) => { 
-    event.preventDefault(); 
-    if (!editingProduct) return; 
-    const updatedData = { 
-      name: editName, 
-      description: editDescription, 
-      price: Number(editPrice), 
-      imageUrl: editImageUrl 
-    }; 
-    try { 
-      await api.put(`/products/${editingProduct.id}`, updatedData); 
-      toast.success("Produto atualizado com sucesso!"); 
-      setIsEditModalOpen(false); 
-      fetchProducts(); 
-    } catch (error) { 
-      toast.error("Erro ao atualizar o produto."); 
-    } 
-  };
+  const handleUpdateProduct = async (event: FormEvent) => { event.preventDefault(); if (!editingProduct) return; const updatedData = { name: editName, description: editDescription, price: Number(editPrice), imageUrl: editImageUrl }; try { await api.put(`/products/${editingProduct.id}`, updatedData); toast.success("Produto atualizado com sucesso!"); setIsEditModalOpen(false); fetchProducts(); } catch (error) { toast.error("Erro ao atualizar o produto."); } };
 
   if (isLoading || (typeof window !== 'undefined' && !localStorage.getItem('accessToken'))) {
     return <div className="min-h-screen bg-gray-100 flex items-center justify-center"><p>Carregando...</p></div>;
@@ -129,15 +76,13 @@ const HomePage = () => {
           <h1 className="text-3xl font-bold text-gray-900">Nossos Produtos</h1>
           
           <div className="flex items-center gap-4">
-            <button onClick={() => { 
-              setCreateName(''); 
-              setCreateDescription(''); 
-              setCreatePrice(''); 
-              setCreateImageFile(null); 
-              setIsCreateModalOpen(true); 
-            }} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-              Criar Novo Produto
-            </button>
+            {/* O botão de Criar só aparece se o usuário for ADMIN */}
+            {user?.role === 'ADMIN' && (
+              <button onClick={() => { setCreateName(''); setCreateDescription(''); setCreatePrice(''); setCreateImageFile(null); setIsCreateModalOpen(true); }} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Criar Novo Produto
+              </button>
+            )}
+            
             <div onClick={() => setIsCartOpen(true)} className="cursor-pointer">
               <CartIcon />
             </div>
@@ -167,6 +112,7 @@ const HomePage = () => {
         </div>
       </main>
 
+      {/* Modal de Criação (com upload de arquivo) */}
       <Modal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} title="Criar Novo Produto">
         <form onSubmit={handleCreateProduct}>
           <Input id="createName" label="Nome do Produto" type="text" value={createName} onChange={(e) => setCreateName(e.target.value)} required />
@@ -179,6 +125,7 @@ const HomePage = () => {
         </form>
       </Modal>
 
+      {/* Modal de Edição (com URL de texto) */}
       <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Editar Produto">
          <form onSubmit={handleUpdateProduct}>
            <Input id="editName" label="Nome do Produto" type="text" value={editName} onChange={(e) => setEditName(e.target.value)} required />

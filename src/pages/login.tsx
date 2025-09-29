@@ -1,11 +1,10 @@
-// src/pages/login.tsx
 import { Input } from '@/components/Input';
 import { FormEvent, useState } from 'react';
 import { api } from '@/services/api';
 import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import axios from 'axios'; // Importa o axios para verificação de tipo
+import axios from 'axios';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');

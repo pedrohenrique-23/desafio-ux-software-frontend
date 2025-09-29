@@ -1,9 +1,8 @@
-// src/components/CartIcon.tsx
 import { useCart } from "@/contexts/CartContext";
 import { ShoppingCartIcon } from "./icons/ShoppingCartIcon";
 
 export const CartIcon = () => {
-  const { totalItems } = useCart(); // Pega o total de itens do nosso contexto
+  const { totalItems } = useCart();
 
   return (
     <div className="relative cursor-pointer">

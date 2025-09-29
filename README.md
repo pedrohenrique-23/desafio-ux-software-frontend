@@ -8,7 +8,7 @@ Aplicação web de um marketplace online desenvolvida como parte do processo sel
 
 ## 🚀 Demonstração
 
-**🔗 Link para o Deploy:** https://desafio-ux-software-frontend-9htr19iws.vercel.app/login
+**🔗 Link para o Deploy:** https://desafio-ux-software-frontend-9htr19iws.vercel.app/
 
 ---
 
@@ -61,7 +61,7 @@ Siga os passos abaixo para configurar e executar o projeto no seu ambiente de de
 
 1.  **Clone o repositório:**
     ```bash
-    git clone [https://github.com/seu-usuario/desafio-ux-software-frontend.git](https://github.com/seu-usuario/desafio-ux-software-frontend.git)
+    git clone https://github.com/seu-usuario/desafio-ux-software-frontend.git
     ```
 
 2.  **Acesse a pasta do projeto:**
