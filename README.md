@@ -12,6 +12,22 @@ Aplicação web de um marketplace online desenvolvida como parte do processo sel
 
 ---
 
+### Credenciais para Teste
+
+Para facilitar a avaliação das funcionalidades, foram criados dois usuários com diferentes níveis de permissão.
+
+**Usuário Administrador (ADMIN):**
+* **E-mail:** `teste.teste8@email.com`
+* **Senha:** `888888`
+*(Este usuário pode ver e utilizar todas as funcionalidades, incluindo a criação, edição e deleção de produtos).*
+
+**Usuário Comum (USER):**
+* **E-mail:** `teste.teste9@email.com`
+* **Senha:** `999999`
+*(Este usuário pode ver os produtos e interagir com o carrinho, mas não tem acesso às funcionalidades de gerenciamento de produtos).*
+
+---
+
 ## 📋 Funcionalidades Implementadas
 
 * **Autenticação de Usuário:**
