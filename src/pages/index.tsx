@@ -172,6 +172,7 @@ const HomePage = () => {
                   product={product} 
                   onDelete={handleDeleteProduct} 
                   onEdit={handleOpenEditModal} 
+                  isAdmin={user?.role === 'ADMIN'}
                 /> 
               ))}
             </div>
