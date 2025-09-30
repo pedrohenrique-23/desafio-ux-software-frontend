@@ -5,11 +5,13 @@ import { toast } from 'react-toastify';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import axios from 'axios';
+import { useCart } from '@/contexts/CartContext';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
+  const { fetchCart } = useCart();
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -19,6 +21,9 @@ const LoginPage = () => {
       const { accessToken } = response.data;
       localStorage.setItem('accessToken', accessToken);
       toast.success('Login realizado com sucesso!');
+      
+      await fetchCart(); 
+      
       router.push('/');
     } catch (error) {
       console.error('Erro no login:', error);
@@ -42,7 +47,7 @@ const LoginPage = () => {
           </button>
         </form>
         <p className="mt-6 text-center text-sm text-gray-600">
-          Não tem uma conta?{' '}
+          Já tem uma conta?{' '}
           <Link href="/cadastro" className="font-medium text-blue-600 hover:text-blue-500">
             Cadastre-se
           </Link>

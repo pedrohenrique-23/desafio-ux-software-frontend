@@ -15,6 +15,7 @@ interface CartContextData {
   removeProductFromCart: (productId: string) => void;
   decreaseQuantity: (productId: string) => void;
   fetchCart: () => void;
+  clearCart: () => void;
 }
 
 const CartContext = createContext<CartContextData>({} as CartContextData);
@@ -25,14 +26,15 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const fetchCart = async () => {
     const token = localStorage.getItem('accessToken');
     if (!token) {
+      setItems([]); 
       return;
     }
-
     try {
       const response = await api.get('/cart');
       setItems(response.data?.items || []);
     } catch (error) {
       console.error("Erro ao buscar o carrinho:", error);
+      setItems([]); 
     }
   };
 
@@ -42,12 +44,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const addProductToCart = async (productId: string) => {
     try {
-      await api.post('/cart/add-product', {
-        productId: productId,
-        quantity: 1,
-      });
+      await api.post('/cart/add-product', { productId, quantity: 1 });
       await fetchCart();
-      // toast.success("Produto adicionado ao carrinho!");
     } catch (error) {
       toast.error("Erro ao adicionar produto ao carrinho.");
       console.error(error);
@@ -56,9 +54,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   
   const removeProductFromCart = async (productId: string) => {
     try {
-      await api.delete('/cart/remove-product', {
-        data: { productId },
-      });
+      await api.delete('/cart/remove-product', { data: { productId } });
       await fetchCart();
       toast.success("Produto removido do carrinho!");
     } catch (error) {
@@ -69,22 +65,22 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   const decreaseQuantity = async (productId: string) => {
     try {
-      await api.patch('/cart/decrease-quantity', {
-        productId: productId,
-        quantity: 1,
-      });
+      await api.patch('/cart/decrease-quantity', { productId, quantity: 1 });
       await fetchCart();
-      // toast.info("Quantidade do produto atualizada.");
     } catch (error) {
       toast.error("Erro ao atualizar a quantidade.");
       console.error(error);
     }
   };
-  
+
+  const clearCart = () => {
+    setItems([]);
+  };
+
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ items, totalItems, addProductToCart, removeProductFromCart, decreaseQuantity, fetchCart }}>
+    <CartContext.Provider value={{ items, totalItems, addProductToCart, removeProductFromCart, decreaseQuantity, fetchCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );
